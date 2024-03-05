@@ -1,0 +1,663 @@
+{
+	"info": {
+		"_postman_id": "189f0219-e5ca-4dc6-8917-280c93fbc930",
+		"name": "Todo List API",
+		"description": "### Название коллекции: \"Todo API\"\n\n#### Описание коллекции:\n\n\"Todo API\" позволяет управлять списком задач, предоставляя функционал для создания, чтения, обновления и удаления задач (CRUD операции). Этот API предназначен для демонстрации базовых операций над ресурсами.\n\n---\n\n### Создание задачи (POST /todo)\n\n**Описание**: Создает новую задачу с указанными атрибутами.\n\n**URL**: `/todo`\n\n**Метод**: `POST`\n\n**Тело запроса**:\n\n``` json\n{\n  \"title\": \"Название задачи\",\n  \"done\": false\n}\n\n ```\n\n**Ответ**:\n\n- **Код**: 200 OK\n- {\"id\": \"1\",\"title\": \"Название задачи\",\"done\": false}\n    \n\n**Примеры**:\n\n- Создание новой задачи: ...\n    \n\n---\n\n### Получение списка всех задач (GET /todos)\n\n**Описание**: Возвращает список всех созданных задач.\n\n**URL**: `/todos`\n\n**Метод**: `GET`\n\n**Ответ**:\n\n- **Код**: 200 OK\n- \\[{ \"id\": \"1\", \"title\": \"Название задачи\", \"done\": false}\\]\n    \n\n**Примеры**:\n\n- Получение списка задач: ...\n    \n\n---\n\n### Получение задачи по ID (GET /todo/{id})\n\n**Описание**: Возвращает задачу по указанному ID.\n\n**URL**: `/todo/{id}`\n\n**Метод**: `GET`\n\n**Параметры**:\n\n- **id** (в URL): Идентификатор задачи.\n    \n\n**Ответ**:\n\n- **Код**: 200 OK\n- {\"id\": \"1\",\"title\": \"Название задачи\",\"done\": false}\n    \n\n**Примеры**:\n\n---\n\n### Обновление задачи (PUT /todo/{id})\n\n**Описание**: Обновляет задачу с указанным ID.\n\n**URL**: `/todo/{id}`\n\n**Метод**: `PUT`\n\n**Параметры**:\n\n- **id** (в URL): Идентификатор задачи.\n    \n\n**Тело запроса**:\n\n``` json\n{\n  \"title\": \"Обновленное название задачи\",\n  \"done\": true\n}\n\n ```\n\n**Ответ**:\n\n- **Код**: 200 OK\n- {\"id\": \"1\",\"title\": \"Обновленное название задачи\",\"done\": true}\n    \n\n**Примеры**:\n\n- Обновление задачи: ...\n    \n\n---\n\n### Удаление задачи (DELETE /todo/{id})\n\n**Описание**: Удаляет задачу с указанным ID.\n\n**URL**: `/todo/{id}`\n\n**Метод**: `DELETE`\n\n**Параметры**:\n\n- **id** (в URL): Идентификатор задачи.\n    \n\n**Ответ**:\n\n- **Код**: 200 OK\n    \n\n**Примеры**:\n\n- Удаление задачи: ...\n    \n\nStartFragment\n\nStartFragment\n\n### Фильтрация задач по статусу выполнения\n\n#### 1\\. Получение списка выполненных задач (GET /todos?done=true)\n\n**Описание**: Возвращает список задач, которые были отмечены как выполненные.\n\n**URL**: `/todos?done=true`\n\n**Метод**: `GET`\n\n**Параметры**:\n\n- **done** (в URL): Фильтр для получения задач с определенным статусом выполнения. Указать `true` для выполненных задач.\n    \n\n**Ответ**:\n\n- **Код**: `200 OK`\n- **Тело**: Массив объектов `Todo`, которые имеют поле `done` со значением `true`.\n    \n\n**Примеры**:\n\n- Получение списка выполненных задач: `/todos?done=true`\n    \n\n#### 2\\. Получение списка невыполненных задач (GET /todos?done=false)\n\n**Описание**: Возвращает список задач, которые еще не были выполнены.\n\n**URL**: `/todos?done=false`\n\n**Метод**: `GET`\n\n**Параметры**:\n\n- **done** (в URL): Фильтр для получения задач с определенным статусом выполнения. Указать `false` для невыполненных задач.\n    \n\n**Ответ**:\n\n- **Код**: `200 OK`\n- **Тело**: Массив объектов `Todo`, которые имеют поле `done` со значением `false`.\n    \n\n**Примеры**:\n\n- Получение списка невыполненных задач: `/todos?done=false`\n    \n\n### Поиск задач по названию\n\n#### 3\\. Поиск задачи по части названия (GET /todos?title=часть_названия)\n\n**Описание**: Возвращает список задач, названия которых содержат указанный текст.\n\n**URL**: `/todos?title=часть_названия`\n\n**Метод**: `GET`\n\n**Параметры**:\n\n- **title** (в URL): Фрагмент текста для поиска в названиях задач.\n    \n\n**Ответ**:\n\n- **Код**: `200 OK`\n- **Тело**: Массив объектов `Todo`, названия которых содержат указанный текст.\n    \n\n**Примеры**:\n\n- Поиск задачи с названием, содержащим \"молоко\": `/todos?title=Задача`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18990860"
+	},
+	"item": [
+		{
+			"name": "Basic Operations",
+			"item": [
+				{
+					"name": "Создание новой задачи",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let responseJson = pm.response.json();\r",
+									"pm.collectionVariables.set(\"todoId\", responseJson.id);\r",
+									"\r",
+									"pm.test(\"Задача успешно создана\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.have.property(\"id\");\r",
+									"    pm.expect(responseData.title).to.eql(\"Создать задачу\");\r",
+									"    console.log(\"Создана задача с ID: \" + responseData.id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Создать задачу\",\r\n  \"done\": false\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/todo",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"todo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение всех задач",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Список задач успешно получен\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData.length).to.be.above(0);\r",
+									"    console.log(\"Получен список задач. Количество задач: \" + responseData.length);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"done\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/todos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"todos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Получение задачи по ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Задача успешно получена по ID\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.have.property(\"id\");\r",
+									"    pm.expect(responseData.id).to.eql(pm.collectionVariables.get(\"todoId\"));\r",
+									"    console.log(\"Получена задача с ID: \" + responseData.id);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/todo/{{todoId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"todo",
+								"{{todoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Обновление задачи",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Задача успешно обновлена\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.have.property(\"done\");\r",
+									"    pm.expect(responseData.done).to.be.true;\r",
+									"    console.log(\"Задача с ID: \" + responseData.id + \" обновлена\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"title\": \"Обновленная задача\",\r\n  \"done\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/todo/{{todoId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"todo",
+								"{{todoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Частичное обновление задачи (Изменение статуса выполнения)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Задача частично обновлена\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    var responseData = pm.response.json();\r",
+									"    pm.expect(responseData).to.have.property(\"done\");\r",
+									"    pm.expect(responseData.done).to.be.true; // Убедитесь, что проверяете правильное значение\r",
+									"    console.log(\"Частичное обновление задачи с ID: \" + responseData.id + \" выполнено\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"done\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8000/todo/{{todoId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"todo",
+								"{{todoId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Удаление задачи",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Задача успешно удалена\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log(\"Задача с ID: \" + pm.collectionVariables.get(\"todoId\") + \" удалена\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8000/todo/{{todoId}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"todo",
+								"{{todoId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Complex Scenarios",
+			"item": [
+				{
+					"name": "Сценарий 1: Фильтрация и проверка статуса",
+					"item": [
+						{
+							"name": "Создание новой задачи",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseJson = pm.response.json();\r",
+											"pm.collectionVariables.set(\"todoId\", responseJson.id);\r",
+											"\r",
+											"pm.test(\"Задача успешно создана\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var responseData = pm.response.json();\r",
+											"    pm.expect(responseData).to.have.property(\"id\");\r",
+											"    pm.expect(responseData.title).to.eql(\"Создать задачу\");\r",
+											"    console.log(\"Создана задача с ID: \" + responseData.id);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Создать задачу\",\r\n  \"done\": true\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/todo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"todo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Фильтрация задач по статусу выполнения \"true\"",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Этот код идет в раздел Tests запроса на фильтрацию задач\r",
+											"pm.test(\"Возвращаются только выполненные задачи\", function () {\r",
+											"    var responseJson = pm.response.json();\r",
+											"    var taskDone = pm.environment.get(\"taskDone\");\r",
+											"\r",
+											"    // Проверка, что полученный список задач соответствует сохраненному статусу\r",
+											"    if (taskDone === true) {\r",
+											"        responseJson.forEach(function (task) {\r",
+											"            pm.expect(task.done).to.be.true;\r",
+											"        });\r",
+											"    }\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/todos?done=true",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"todos"
+									],
+									"query": [
+										{
+											"key": "done",
+											"value": "true"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление задачи",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Задача успешно удалена\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Задача с ID: \" + pm.collectionVariables.get(\"todoId\") + \" удалена\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/todo/{{todoId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"todo",
+										"{{todoId}}"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Создание новой задачи",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"let responseJson = pm.response.json();\r",
+											"pm.collectionVariables.set(\"todoId\", responseJson.id);\r",
+											"\r",
+											"pm.test(\"Задача успешно создана\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    var responseData = pm.response.json();\r",
+											"    pm.expect(responseData).to.have.property(\"id\");\r",
+											"    pm.expect(responseData.title).to.eql(\"Создать задачу\");\r",
+											"    console.log(\"Создана задача с ID: \" + responseData.id);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"title\": \"Создать задачу\",\r\n  \"done\": false\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8000/todo",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"todo"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Фильтрация задач по статусу выполнения \"false\"",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Возвращаются только невыполненные задачи\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const responseJson = pm.response.json();\r",
+											"    \r",
+											"    // Проверяем, что каждая задача в ответе не выполнена\r",
+											"    responseJson.forEach((task) => {\r",
+											"        pm.expect(task.done).to.be.false;\r",
+											"    });\r",
+											"    \r",
+											"    // Опционально: проверяем, что количество задач в ответе больше 0\r",
+											"    pm.expect(responseJson.length).to.be.above(0);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/todos?done=false",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"todos"
+									],
+									"query": [
+										{
+											"key": "done",
+											"value": "false"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Удаление задачи",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Задача успешно удалена\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    console.log(\"Задача с ID: \" + pm.collectionVariables.get(\"todoId\") + \" удалена\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/todo/{{todoId}}",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"todo",
+										"{{todoId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Сценарий 2: Поиск задач по названию",
+					"item": [
+						{
+							"name": "Поиск задачи с несуществующим названием",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Задачи соответствуют критерию поиска\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"    const responseJson = pm.response.json();\r",
+											"    responseJson.forEach(function(task) {\r",
+											"        pm.expect(task.title.toLowerCase()).to.include(pm.request.url.query.get(\"title\"));\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:8000/todos?title=Создать",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8000",
+									"path": [
+										"todos"
+									],
+									"query": [
+										{
+											"key": "title",
+											"value": "Создать"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Поиск задачи с пустым параметром \"title\"",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/todo/969438",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"todo",
+						"969438"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "todoId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
